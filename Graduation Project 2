@@ -1,0 +1,945 @@
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Validation;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using adminSection.Models;
+using PagedList;
+
+namespace adminSection.Controllers
+{
+    public class MinsitryController : Controller
+    {
+        // GET: Ministry
+        [HttpGet]
+        public ActionResult Rigester()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        [ActionName("Rigester")]
+        public ActionResult Rigester(Minsitry min)
+        {
+            if (min == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                string fileName = Path.GetFileNameWithoutExtension(min.ImageFile.FileName);
+                string exe = Path.GetExtension(min.ImageFile.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + exe;
+                min.Min_Image_Path = "~/Image/" + fileName;
+                fileName = Path.Combine(Server.MapPath("~/Image/"), fileName);
+                min.ImageFile.SaveAs(fileName);
+                using (Context db = new Context())
+                {
+                    min.User_Type = "Minsitry";
+                    db.ministry.Add(min);
+                    db.SaveChanges();
+                    return RedirectToAction("Login", "Minsitry");
+                }
+            }
+        }
+        /// <summary>
+        /// Rigester part
+        /// Details About Function:Rigester For Ministry Admin 
+        /// this method is success
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        public ActionResult Login()
+        {
+            if(Session["ID"]!=null)
+            {
+                return HttpNotFound();
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Login(Minsitry min)
+        {
+            if (min == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                using (Context db = new Context())
+                {
+                    var i = db.ministry.Where(x => x.Min_Email == min.Min_Email && x.Min_Email == min.Min_Email).FirstOrDefault();
+                    if (i == null)
+                    {
+                        min.loginErrorMessage = "Email or password is Wrong";
+                        return View("login", min);
+
+                    }
+                    else if (i.User_Type == "Minsitry")
+                    {
+
+                        Session["ID"] = i.Min_Id;
+                        Session["Name"] = i.Min_Full_Name;
+                        Session["ImagePath"] = i.Min_Image_Path;
+                        Session["UserType"] = "Minsitry";
+                        return RedirectToAction("Home", "Minsitry");
+
+                    }
+                }
+            }
+            return View();
+           
+        }
+        /// <summary>
+        /// Login For Ministry Admin seccess
+        /// Details About Function:the method do login for ministry admin
+        /// this  metod is success
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Home(int ?page)
+        {
+            if (Session["Id"] == null)
+            {
+                
+                    return RedirectToAction("Login", "Minsitry");
+                
+            }
+            else
+            {
+                if (Session["UserType"].ToString() == "Minsitry")
+                {
+                    using (Context db = new Context())
+                    {
+                        var home = db.home.ToList().ToPagedList(page ?? 1, 6);
+                        return View(home);
+
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Home", Session["UserType"]);
+                }
+            }
+           
+        }
+        /// <summary>
+        /// Home page for Ministry Admin
+        /// Details About Function: the home page display all Home Child car rigester by these Ministry admin
+        /// the method is success
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        [HttpGet]
+        public ActionResult Home_Details(int? id)
+        {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("Login", "Minsitry");
+            }
+            else
+            {
+                if (Session["UserType"].ToString() == "Minsitry")
+                {
+                    if (id != null)
+                    {
+
+                        using (Context db = new Context())
+                        {
+                            var home = db.home.Find(id);
+                            Session["GenderHome1"] = home.Home_Child_Gender;
+                            return View(home);
+                        }
+                    }
+                }
+                else
+                    return RedirectToAction("Home", Session["UserType"]);
+            }
+            return View();
+        }
+        /// <summary>
+        /// the Home details Function
+        /// Details About Function:display Details about the Home Selected
+        /// this Method is success
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Create_Home()
+        {
+            if (Session["ID"] == null)
+            {
+
+                return RedirectToAction("Login", "Minsitry");
+
+            }
+            else
+            {
+                if (Session["UserType"].ToString() == "Minsitry")
+                {
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Home", Session["UserType"]);
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult Create_Home(Home_Child_Care home)
+        {
+            if (home != null)
+            {
+                using (Context db = new Context())
+                {
+                    var min = db.ministry.Find(Session["ID"]);
+                    home.ministry = min;
+                    home.Min_Id = min.Min_Id;
+                    db.home.Add(home);
+                    min.Home = new List<Home_Child_Care>();
+                    min.Home.Add(home);
+                    db.Entry(min).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Home", "Minsitry");
+
+
+                }
+
+            }
+            return HttpNotFound();
+        }
+        /// <summary>
+        /// Home Care Section
+        /// Function details:Create  New Home Care by the Ministry Login
+        /// Success Function
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        public ActionResult Show_ALl_Child( int? page)
+        {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("Login", "Minsitry");
+            }
+            else
+            {
+              
+                using (Context db = new Context())
+                {
+                    var child1 = db.child.Include(s=>s.Home).ToList().ToPagedList(page??1,6); 
+                    return View(child1);
+                }
+            }
+        }
+        /// <summary>
+        /// this method is return all child in database
+        /// Details About Function: display all chil in the database
+        /// the function is success
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Show_All_Admin(int? page)
+        {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("Login", "Minsitry");
+            }
+            else
+            {
+                using (Context db = new Context())
+                {
+                    var admin=db.admin.ToList().ToPagedList(page ?? 1, 6);
+                    return View(admin);
+                }
+            }
+        }
+        /// <summary>
+        /// edite for information of Any house
+        /// Details About Function:display all Admin in the database
+        /// the function is success
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public ActionResult Edit_home(int? id)
+        {
+            if(Session["ID"]!=null)
+            {
+                if (Session["UserType"].ToString() == "Minsitry")
+                {
+                    if (id != null)
+                    {
+                        Session["HomeID"] = id;
+                        return View();
+                    }
+                    else
+                    {
+                        return HttpNotFound();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+            
+        }
+        [HttpPost]
+        public ActionResult Edit_home(Home_Child_Care home)
+        {
+            if (home != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    using (Context db = new Context())
+                    {
+                        int id = int.Parse(Session["HomeID"].ToString());
+                        var oldhome = db.home.Find(id);
+                        oldhome.Home_Name = home.Home_Name;
+                        oldhome.Home_Phone = home.Home_Phone;
+                        oldhome.Home_Location = home.Home_Location;
+                        oldhome.Home_Email = home.Home_Email;
+                        oldhome.Home_Child_Gender = home.Home_Child_Gender;
+                        oldhome.Home_Age_Group = home.Home_Age_Group;
+                        oldhome.Home_Website = oldhome.Home_Website;
+                        db.Entry(oldhome).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Home");
+                    }
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                return View();
+            }
+        }
+        /// <summary>
+        /// Edit House section
+        /// Details About Function: edite the information of Any house
+        /// Function is Success
+        /// </summary>
+        /// <returns></returns>
+        ///
+        [HttpGet]
+        public ActionResult Remove_Home(int? id)
+        {
+            if (Session["ID"] != null)
+            {
+                if (id != null)
+                {
+                    using (Context db = new Context())
+                    {
+                        var home = db.home.Find(id);
+                        var admin = db.admin.ToList();
+                        var min = db.ministry.Find(home.Min_Id);
+                        var child = db.child.ToList();
+                        foreach (var i in child)
+                        {
+                            if (i.Home_ID == id)
+                            {
+                                i.Home = null;
+                                db.Entry(i).State = EntityState.Modified;
+                            }
+
+                        }
+                        ///// check if child there is in these home
+                        foreach (var i in admin)
+                        {
+                            if (i.Home_ID == id)
+                            {
+                                i.home = null;
+                                db.Entry(i).State = EntityState.Modified;
+                            }
+                        }
+                        ///// check if Admin there is in these home
+                        min.Home = new List<Home_Child_Care>();
+                        min.Home.Remove(home);
+                        //db.Entry(admin).State = EntityState.Modified;
+                        //db.Entry(child).State = EntityState.Modified;
+                        db.Entry(min).State = EntityState.Modified;
+                        db.home.Remove(db.home.FirstOrDefault(x=>x.Home_ID==id));
+                        db.SaveChanges();
+                        return RedirectToAction("Home", "Minsitry");
+                        
+                    }
+
+
+                }
+            }
+            return View();
+        }
+        /// <summary>
+        /// remove House Section
+        /// Details About Function: remove the house
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+        ///
+
+        public ActionResult Show_Admin(int? id,int ?page)
+        {
+            if (Session["ID"] != null)
+            {
+                using (Context db = new Context())
+                {
+                    var Home = db.home.Find(id);
+                    List<Admin> list = Home.admin.ToList();
+                    return View(list.ToPagedList(page ?? 1, 6));
+                }
+            }
+            return HttpNotFound();
+        }
+        /// <summary>
+        /// Show Admin Section
+        /// Details About Function: View all Admin of this house
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Show_Child(int? id,int?page)
+        {
+            if (Session["ID"] != null)
+            {
+                using (Context db = new Context())
+                {
+                    var home = db.home.Find(id);
+                    List<Child> list = home.child.ToList();
+
+                    return View(list.ToPagedList(page??1,6));
+                }
+            }
+            return HttpNotFound();
+        }
+        /// <summary>
+        /// Show Child Section
+        /// Details About Function: View all Child of this house
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+       
+
+   
+        public ActionResult Details(int id)
+        {
+            if (Session["ID"] == null)
+                return RedirectToAction("Login", "Minsitry");
+            else
+            {
+                using (Context db = new Context())
+                {
+                    Child obj = db.child.Single(x => x.Chi_Id == id);
+
+                    return View(obj);
+                }
+
+            }
+        }
+        [HttpGet]
+        public ActionResult Child_More(int? id)
+        {
+            if (Session["ID"] != null)
+            {
+                if (id != null)
+                {
+                    using(Context db=new Context())
+                        {
+                        var child = db.child.Include("parent").Where(x => x.Chi_Id == id).FirstOrDefault();
+                        return View(child);
+                        }
+
+                }
+                else
+                    return HttpNotFound();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+
+            
+        }
+        /// <summary>
+        /// Details House Section
+        /// Details About Function: Child Details
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Add_Note(int? id)
+        {
+           if(Session["ID"]!=null)
+            {
+                if (Session["UserType"].ToString() == "Minsitry")
+                {
+                    if (id != null)
+                    {
+                        
+                            
+                            Session["Childid"] = id;
+                            return View();
+                        
+                       
+                    }
+                    else
+                    {
+                        return HttpNotFound();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("login");
+                }
+
+
+            }
+           else
+            {
+                return RedirectToAction("login");
+            }
+           
+        }
+        [HttpPost]
+        public ActionResult Add_Note(Note note)
+        {
+            if(note!=null)
+            {
+
+                using (Context db = new Context())
+                {
+                    var child = db.child.Find(Session["Childid"]);
+                    var min = db.ministry.Find(Session["ID"]);
+                    var home = db.home.Find(child.Home_ID);
+                    var admin = db.admin.Find(child.Adm_ID);
+                    note.child = child;
+                    note.Child_id = child.Chi_Id;
+                    note.home = home;
+                    note.Home_ID = home.Home_ID;
+                    note.min = min;
+                    note.Min_ID = min.Min_Id;
+                    note.admin = admin;
+                    note.Note_Date = DateTime.Now;
+                    note.Admin_id = admin.Adm_ID;
+                    note.Posted = "Minsitry";
+
+                    db.note.Add(note);
+
+                    child.note = new List<Note>();
+                    child.note.Add(note);
+                    db.Entry(child).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Home");
+                }
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+
+            
+
+            
+        }
+        /// <summary>
+        /// Add new Note Section
+        /// Details About Function: Adding Note For The Child
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+
+
+        [HttpGet]
+        public ActionResult Note_List(int? id, int? page)
+        {
+            if (Session["ID"] != null)
+            {
+                if (Session["UserType"].ToString() == "Minsitry")
+                {
+                    if (id != null)
+                    {
+                        using (Context db = new Context())
+                        {
+                            var note = db.note.Include("child").Where(x => x.Child_id == id).ToList().ToPagedList(page ?? 1, 3);
+                            if (note != null)
+                            {
+                                return View(note);
+                            }
+                            else
+                            {
+                                return View();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return HttpNotFound();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+            
+        }
+        /// <summary>
+        /// Note List  Section
+        /// Details About Function: show All Note 
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public ActionResult Edit_Note(int? id)
+        {
+            if (Session["ID"] != null)
+            {
+                if (Session["UserType"].ToString() == "Minsitry")
+                {
+                    if (id != null)
+                    {
+                        Session["NoteIDEdit"] = id;
+                        return View();
+                    }
+                    else
+                    {
+                        return HttpNotFound();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("login");
+                }
+
+
+            }
+            else
+            {
+                return RedirectToAction("login");
+            }
+
+        }
+        [HttpPost]
+        public ActionResult Edit_Note(Note note)
+        {
+            if(note!=null)
+            {
+                using (Context db = new Context())
+                {
+                    int id = int.Parse(Session["NoteIDEdit"].ToString());
+                    var oldnote = db.note.Find(id);
+                    oldnote.Note_Date = DateTime.Now;
+                    oldnote.note_content = note.note_content;
+                    oldnote.Note_title = note.Note_title;
+                    db.Entry(oldnote).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Home");
+                }
+                    
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+        }
+        /// <summary>
+        /// Edit Note Section is Success
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// 
+        [HttpGet]
+        public ActionResult Remove_Note(int? id)
+        {
+            if (Session["Id"] == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                if (id == null)
+                {
+                    return HttpNotFound();
+                }
+                else
+                {
+                    using (Context db = new Context())
+                    {
+                        var note = db.note.Find(id);
+                        var child = db.child.Find(note.Child_id);
+                        var admin = db.admin.Find(note.Admin_id);
+                        var min = db.ministry.Find(Session["ID"]);
+                        db.note.Remove(db.note.FirstOrDefault(x => x.Note_Id == id));
+                        db.SaveChanges();
+                        child.note = new List<Note>();
+                        child.note.Remove(note);
+                        admin.note = new List<Note>();
+                        admin.note.Remove(note);
+                        min.note = new List<Note>();
+                        min.note.Remove(note);
+                        db.SaveChanges();
+                    }
+
+
+
+                    return RedirectToAction("Home");
+                }
+            }
+        }
+        /// <summary>
+        /// remove note Section
+        /// Details About Function: Delete the note
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        public ActionResult volunteerList(int? page)
+        {
+            if (Session["ID"] != null)
+            {
+                using (Context db = new Context())
+                {
+
+                    return View(db.voulunter.ToList().ToPagedList(page ?? 1, 6));
+                }
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Minsitry");
+            }
+
+        }
+        /// <summary>
+        ///  volunteer List Section
+        /// Details About Function: show all volunteer List on the data base
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult volunteer_Details(int? id)
+        {
+            if (Session["ID"] != null)
+            {
+                if (id != null)
+                {
+                    using (Context db = new Context())
+                    {
+                        Session["volunteerForBack"] = id;
+                        var obj = db.voulunter.Find(id);
+                        return View(obj);
+                    }
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+            return RedirectToAction("Login", "Minsitry");
+        }
+        /// <summary>
+        ///  volunteer Details Section
+        /// Details About Function: show Details of volunteer  on the data base
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Visitor_Profile(int? id)
+        {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("Login", "Minsitry");
+            }
+            else
+            {
+                if (id != null)
+                {
+                    using (Context db = new Context())
+                    {
+                        var obj = db.visitor.Find(id);
+                        if (obj == null)
+                            return HttpNotFound();
+                        else
+                            return View(obj);
+                    }
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+        }
+        /// <summary>
+        ///  Visitor Profile Section
+        /// Details About Function: show all Details about Visitor 
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        public ActionResult Accept_Volunteer(int? id)
+        {
+
+            if (Session["ID"] != null)
+            {
+                if (id != null)
+                {
+                    using (Context db = new Context())
+                    {
+                        var Volunteer = db.voulunter.Find(id);
+                        if (Volunteer == null)
+                        {
+                            return HttpNotFound();
+                        }
+                        else
+                        {
+                            Session["VolID"] = id;
+                            Volunteer.Volunteer_status = "Accept";
+                            db.Entry(Volunteer).State = EntityState.Modified;
+                            db.SaveChanges();
+                            var visitor = db.visitor.Find(Volunteer.Visitro_ID);
+                            visitor.volunterr = new List<volunteer>();
+                            visitor.volunterr.Add(Volunteer);
+                            db.Entry(visitor).State = EntityState.Modified;
+                            db.SaveChanges();
+                            if (visitor.support == null)
+                            {
+                                return RedirectToAction("Rigester", "The_Supports");
+
+                            }
+                            else
+                            {
+                                var supports = db.sup.Find(Volunteer.Visitro_ID);
+                                supports.vol = new List<volunteer>();
+                                supports.vol.Add(Volunteer);
+                                supports.Accept_Voulnteer += 1;
+                                db.Entry(supports).State = EntityState.Modified;
+                                db.SaveChanges();
+                                return RedirectToAction("Home", "Minsitry");
+                            }
+                            
+                        }
+                    }
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Minsitry");
+            }
+        }
+        /// <summary>
+        /// Accept Volunteer Section
+        /// Details About Function: Accept Volunteer 
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+
+        [HttpGet]
+        public ActionResult Reject_Volunteer(int? id)
+        {
+            if (Session["ID"] != null)
+            {
+                if (id != null)
+                {
+                    Session["VolunteerID"] = id;
+                    return View();
+                }
+                else
+                {
+                    return HttpNotFound();
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Minsitry");
+            }
+        }
+        [HttpPost]
+        public ActionResult Reject_Volunteer(volunteer vol)
+        {
+            if (vol == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                using (Context db = new Context())
+                {
+                    var obj = db.voulunter.Find(Session["VolunteerID"]);
+                    obj.the_reason_of_refuse = vol.the_reason_of_refuse;
+                    obj.Volunteer_status = "Reject";
+                    db.Entry(obj).State = EntityState.Modified;
+                    db.SaveChanges();
+                    var visitor = db.visitor.Find(obj.Visitro_ID);
+                    visitor.volunterr = new List<volunteer>();
+                    visitor.volunterr.Add(obj);
+                    db.Entry(visitor).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    return RedirectToAction("Home", "Minsitry");
+                }
+            }
+
+        }
+        /// <summary>
+        /// Reject Volunteer Section
+        /// Details About Function: Reject Volunteer
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult volunteer_Visitor(int? id)
+        {
+            if (Session["ID"] == null)
+            {
+                return RedirectToAction("Login", "Minsitry");
+            }
+            else
+            {
+                if (id == null)
+                {
+                    return HttpNotFound();
+                }
+                else
+                {
+                    using (Context db = new Context())
+                    {
+                        var vistor = db.visitor.Find(id);
+
+                        return View(vistor.volunterr.ToList());
+                    }
+                }
+            }
+
+        }
+        /// <summary>
+        ///  volunteer Visitor Section
+        /// Details About Function: show all volunteer List form one Visitor
+        /// success this method
+        /// </summary>
+        /// <returns></returns>
+
+    }
+
+}
