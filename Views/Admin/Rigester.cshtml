@@ -1,0 +1,256 @@
+﻿@model adminSection.Models.Child
+@{
+    ViewBag.Title = "Rigester";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+<style>
+     .panel {
+        display: none;
+    }
+    .butoon {
+    background-color:aqua;
+    padding:4px;
+    border:solid 1px #000000;
+    
+    }
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Admin</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    Rigester New Child
+</div>
+
+@using (Html.BeginForm("Rigester", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(x => x.Chi_First_Name, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Chi_First_Name, new { htmlAttributes = new { id="FirstName" ,@class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Chi_First_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Chi_Last_Name, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Chi_Last_Name, new { htmlAttributes = new {id="LastName", @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Chi_Last_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Age, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Age, new { htmlAttributes = new { id = "age", @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Age, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group panel" id="school">
+            @Html.LabelFor(x => x.Chi_School, htmlAttributes: new { id = "school", @class = "label-control col-md-2 " })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Chi_School, new { htmlAttributes = new { id = "school", @class = "form-control " } })
+                @Html.ValidationMessageFor(x => x.Chi_School, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+        <div class="form-group">
+            @Html.LabelFor(x => x.Gender, htmlAttributes: new { id="Gender", @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Gender", new List<SelectListItem>
+           {
+               new SelectListItem {Text="Male", Value="Male" },
+               new SelectListItem {Text="Female",Value="Female" }
+           },
+"Select Child Gender",
+new { @class = "form-control" }
+)
+                @Html.ValidationMessageFor(x => x.Gender, "", new {  @class = "text-danger" })
+            </div>
+        </div>
+        
+        
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Chi_parent_status, htmlAttributes: new {@class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Chi_parent_status", new List<SelectListItem>
+           {
+               new SelectListItem {Text="Live",Value="liver" },
+               new SelectListItem {Text="Separated",Value="Separated" },
+               new SelectListItem {Text="Widower",Value="Widower" },
+               new SelectListItem {Text="Dead",Value="Dead" }
+
+           },
+    "Select parent status",
+    new { id="DropDown", @class = "form-control" }
+
+
+    )
+            </div>
+        </div>
+        @*<div class="form-group ">
+            <div class="col-md-12">
+
+                @Html.ActionLink("Register Parent", "Rigester", "Parent",null, new { id = "new_Parent" , @class = "butoon panel" } )
+            </div>
+        </div>*@
+       
+        <div class="form-group">
+            @Html.LabelFor(x => x.Chi_Image_Path, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="ImageFile"  name="ImageFile" class="form-control" required />
+                @Html.ValidationMessageFor(x => x.Chi_Image_Path, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        <input type="submit" value="Add new child" class="btn button padding_and_Margin"  />
+        
+    </div>
+
+   
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#age").change(function () {
+                var age = document.getElementById("age").value;
+                if (age >= 6) {
+                    $("#school").show("slow");
+                   // document.getElementById("school").style.display = "block";
+                }
+                else {
+                    //document.getElementById("school").style.display = "none";
+                    $("#school").hide("slow");
+                }
+            });
+           
+
+            
+            
+        });
+</script>
+
+
+}
+
+ @*$("#DropDown").change(function ()
+            {
+                var drop = document.getElementById("DropDown").value;
+                if (drop == "liver" || drop == "Separated" || drop == "Widower")
+                {
+                    $("#new_Parent").show("slow");
+
+                    $("#FirstName").prop('readonly', true);
+                    var FirstName = document.getElementById("FirstName").value;
+
+
+                    $("#LastName").prop('readonly', true);
+                    var LastName = document.getElementById("LastName").value;
+
+
+                    $("#Gender").prop('readonly', true);
+                    var Gender = document.getElementById("Gender");
+
+
+
+                    $("#age").prop('readonly', true);
+                    var Age = document.getElementById("age").value;
+
+
+                    $("#school").prop('readonly', true);
+                    var school = document.getElementById("school").value;
+
+
+
+                    $("#ImageFile").prop('readonly', true);
+                    var Image = document.getElementById("ImageFile").value;
+
+                    $("#new_Parent").click(function () {
+
+                        localStorage.setItem("First", FirstName);
+                        localStorage.setItem("Last", LastName);
+                        localStorage.setItem("Gender", Gender);
+                        localStorage.setItem("Age", Age);
+                        localStorage.setItem("School", school);
+                        localStorage.setItem("Image", Image);
+                        localStorage.setItem("DropDown", drop);
+                        alert.localStorage.getItem("First");
+                        window.attachEvent("onload", function () {
+
+
+                                document.getElementById("FirstName").value = localStorage.getItem("First");
+                                document.getElementById("LastName").value = localStorage.getItem("Last");
+                                document.getElementById("Gender").value = localStorage.getItem("Gender");
+                                document.getElementById("School").value = localStorage.getItem("school");
+                                document.getElementById("age").value = localStorage.getItem("Age");
+                                document.getElementById("DropDown").value = localStorage.getItem("DropDown");
+                                document.getElementById("ImageFile").value = localStorage.getItem("Image");
+
+
+
+
+
+
+                        });
+                    });
+
+
+
+
+                }
+                else if (drop == "Dead")
+                {
+                    $("#new_Parent").hide("slow");
+                    $("#FirstName").removeProp('readonly');
+                    $("#LastName").removeProp('readonly');
+                    $("#age").removeProp('readonly');
+                    $("#school").removeProp('readonly');
+                    $("#ImageFile").removeProp('readonly');
+                    $("#Gender").removeProp('readonly');
+                }
+            })*@

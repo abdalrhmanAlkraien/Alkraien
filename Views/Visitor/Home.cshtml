@@ -1,0 +1,96 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<adminSection.Models.volunteer>
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_VisitorLayout.cshtml";
+}
+
+
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Visitor</b> </h2>
+    </div>
+</div>
+
+<h2>Home</h2>
+
+<div class="row padding_and_Margin">
+    <div class="col-md-6">
+        @Html.ActionLink("Add volunteer", "Add_volunteer", "Visitor", null, new { @class = " button" })
+    </div>
+</div>
+
+<div class="row">
+    @foreach(var i in Model)
+    {
+        <table class="table table-hover table-bordered table-striped ">
+            <tr>
+                <td>
+                    @Html.Label("Volunteer Name")
+                </td>
+                <td>
+                    @Html.Label(i.Volunteer_Title)
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                @Html.Label("Volunteer Status")
+                </td>
+                <td>
+                    @Html.Label(i.Volunteer_status)
+                </td>
+            </tr>
+            
+
+            
+            
+            
+        </table>
+        <div class="row padding_and_Margin">
+            <div class="col-md-4">
+                @Html.ActionLink("More", "More_Details", "Visitor", new { id = i.Volunteer_Id }, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    @Html.PagedListPager(Model, page => Url.Action("Home", new { page }))
+
+</div>
+

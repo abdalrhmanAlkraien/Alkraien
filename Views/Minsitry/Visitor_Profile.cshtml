@@ -1,0 +1,62 @@
+﻿@model adminSection.Models.Visitor
+@{
+    ViewBag.Title = "Visitor_Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Visitor_Profile</h2>
+
+<style>
+       .image {
+  border-radius: 50%;
+  padding:10px;
+  margin:10px;
+  text-align:center;
+
+}
+       .btn{
+           margin:20px;
+       }
+</style>
+<div class="row">
+    <img src="@Url.Content(Model.Visitor_Image_Path)" alt="Child Image" width="150" height="150" class="image float-left" />
+</div>
+
+<div class="row">
+    <table class="table table-bordered table-hover table-responsive">
+        <tr>
+            <td>
+                @Html.LabelFor(x=>x.Visitor_FullName)
+            </td>
+            <td>
+                @Html.LabelFor(x => x.Visitor_Phone)
+            </td>
+            <td>
+                @Html.LabelFor(x => x.Visitor_Email)
+            </td>
+           
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(x => x.Visitor_FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Visitor_Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Visitor_Email)
+            </td>
+        </tr>
+        
+    </table>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            @Html.ActionLink("Back", "volunteer_Details", "Minsitry", new { id= Session["volunteerForBack"] }, new { @class="btn btn-primary"})
+        </div>
+        <div>
+            @Html.ActionLink("All volunteer", "volunteer_Visitor", "Minsitry", new { id = Model.Visitro_ID },new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+﻿@model  adminSection.Models.Note
+@{
+    ViewBag.Title = "moreNote_Info";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+<style type="text/css">
+    .panel {
+        display: none;
+    }
+</style>
+<style>
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Admin</b> </h2>
+    </div>
+</div>
+<div class="row padding_and_Margin h2">
+    More Note Info
+</div>
+<h2></h2>
+
+<table class="table table-bordered table-hover table-responsive">
+    <tr>
+        <td>
+            @Html.Label("First Name")
+        </td>
+        <th>
+            @Html.Label("Last Name")
+        </th>
+        <th>
+            @Html.Label("Note Title")
+        </th>
+        <th>
+            @Html.Label("Note Content")
+        </th>
+        <th>
+            @Html.Label("Note Date")
+        </th>
+        <th>
+            @Html.Label("Who Posted")
+        </th>
+        <th>
+            @Html.Label("Edit Note")
+        </th>
+        <th>
+            @Html.Label("Remove Note")
+        </th>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.Label(Model.child.Chi_First_Name)
+        </td>
+        <td>
+            @Html.Label(Model.child.Chi_Last_Name)
+        </td>
+        <td>
+            @Html.Label(Model.Note_title)
+        </td>
+        <td>
+            @Html.Label(Model.note_content)
+        </td>
+        <td>
+            @Html.Label(Model.Note_Date.ToString())
+        </td>
+        <td>
+            @Html.Label(Model.Posted)
+        </td>
+        @if (Model.Posted == "Admin")
+        {
+            <td>
+                @Html.ActionLink("Edit Note", "Edit_Note", "Admin", new { id = Model.Note_Id }, new { @class = "btn btn-defult" })
+            </td>
+              <td>
+                        @Html.ActionLink("Remove Note", "Remove_Note", "Admin", new { id = Model.Note_Id }, new { @class = "btn btn-defult" })
+             </td>
+
+        }
+
+    </tr>
+
+
+
+</table>

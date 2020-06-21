@@ -1,0 +1,161 @@
+﻿@model adminSection.Models.Parent
+@{
+    ViewBag.Title = "Rigester";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+<style>
+    .butoon {
+        background-color: aqua;
+        padding: 4px;
+        border: solid 1px #000000;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Ministry admin</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    Rigester Parent
+</div>
+
+
+@using (Html.BeginForm())
+{
+    
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(x => x.Parent_Full_Name, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Parent_Full_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Parent_Full_Name, "", new { @class = "text-danger" })
+                
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Parent_Phone, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Parent_Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Parent_Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Parent_Email, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Parent_Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Parent_Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Parent_Password, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Parent_Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Parent_Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Parent_Confirm_Password, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Parent_Confirm_Password, new { htmlAttributes = new { @class = "form-control", Required= "required" } })
+                @Html.ValidationMessageFor(x => x.Parent_Confirm_Password)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Parent_status, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Parent_status", new List<SelectListItem>
+           {
+               new SelectListItem {Text="liver",Value="liver" },
+               new SelectListItem {Text="Separated",Value="Separated" },
+               new SelectListItem {Text="Widower",Value="Widower" },
+               new SelectListItem {Text="Dead",Value="Dead" }
+
+           },
+    "Select parent status",
+    new { id = "DropDown", @class = "form-control" }
+
+
+    )
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Parent_Location, htmlAttributes: new { @class = "label-control col-md-2" })
+
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Parent_Location, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Parent_Location, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="row padding_and_Margint">
+        <div>
+            <div class="col-md-4">
+                <input type="submit" value="Rigester Parent" class="btn button padding_and_Margint" />
+            </div>
+            <div class="col-md-4">
+                @Html.ActionLink("Back", "List_Child", "Admin", null, new { @class = "btn button padding_and_Margint" })
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        $("#Save").click(function () {
+
+                var password = document.getElementById("Password").value;
+                var Confirm_Password = document.getElementById("Confirm_Password").value;
+                if (password != Confirm_Password) {
+                    alert("The Password And Confirm Password Not Match");
+                }
+
+
+
+
+
+        });
+    });
+
+</script>

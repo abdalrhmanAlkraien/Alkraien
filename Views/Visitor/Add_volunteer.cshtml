@@ -1,0 +1,109 @@
+﻿@model adminSection.Models.volunteer
+@{
+    ViewBag.Title = "Add_volunteer";
+    Layout = "~/Views/Shared/_VisitorLayout.cshtml";
+}
+
+<style>
+   
+    .btn {
+        margin: 0 20px 20px 50px;
+    }
+
+    .p {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .butoon {
+        background-color: aqua;
+        padding: 4px;
+        border: solid 1px #000000;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Visitor</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    Add Volunteer
+</div>
+
+@using (Html.BeginForm("Add_volunteer", "Visitor", FormMethod.Post))
+{ 
+   <div class="form-horizontal">
+       <div class="form-group">
+           @Html.LabelFor(x=>x.Volunteer_Title, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+            @Html.EditorFor(x => x.Volunteer_Title, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.ValidationMessageFor(x => x.Volunteer_Title, null, new { @class="text-danger"})
+           </div>
+       </div>
+       <div class="form-group">
+           @Html.LabelFor(x => x.Volunteer_Decription, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+               @Html.EditorFor(x => x.Volunteer_Decription, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.ValidationMessageFor(x => x.Volunteer_Decription, null, new { @class = "text-danger" })
+           </div>
+       </div>
+       <div class="form-group">
+           @Html.LabelFor(x => x.Volunteer_Type, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+               @Html.DropDownList("Volunteer_Type",new List<SelectListItem>
+          {
+              new SelectListItem {Text="Sponor Child",Value="Sponor Child" },
+
+              new SelectListItem {Text="Donate to Home Care",Value="Home Care" }
+
+
+          }, "Select Donate Type",
+    new { id = "DropDown", @class = "form-control" })
+               @Html.ValidationMessageFor(x => x.Volunteer_Title, null, new { @class = "text-danger" })
+           </div>
+       </div>
+
+       <input type="submit" value="Send" class="btn button padding_and_Margin"  />
+       
+   </div>
+
+}
+

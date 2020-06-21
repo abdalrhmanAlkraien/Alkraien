@@ -1,0 +1,118 @@
+﻿@model adminSection.Models.Child
+@{
+    ViewBag.Title = "More_Child_Details";
+    Layout = "~/Views/Shared/_The_SupportsLayout.cshtml";
+}
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Supports</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    More Child Details
+</div>
+<div class="row">
+    <div class="col-md-4">
+        @Html.ActionLink("Show Note", "Show_Note", "The_Supports", new { id=Model.Chi_Id},new { @class= "btn button padding_and_Margin"})
+    </div>
+    <div class="col-md-4">
+        @Html.ActionLink("Add note", "Add_Note", "The_Supports", new { id = Model.Chi_Id },new { @class = "btn button padding_and_Margin" })
+    </div>
+    
+    <div class="col-md-4">
+
+    </div>
+</div>
+<div class="row">
+    <table class="table table-bordered table-hover table-responsive">
+        <tr>
+            <td>
+                @Html.LabelFor(x => x.Chi_First_Name)
+            </td>
+            <td>
+                @Html.LabelFor(x => x.Chi_Last_Name)
+            </td>
+            <td>
+                @Html.LabelFor(x => x.Age)
+            </td>
+            <td>
+                @Html.LabelFor(x => x.Gender)
+            </td>
+            @{
+                if (Model.Chi_School != null)
+                {
+
+                    <td>
+                        @Html.LabelFor(x => x.Chi_School)
+                    </td>
+                }
+            }
+            <td>
+                @Html.LabelFor(x => x.Home.Home_Name)
+            </td>
+
+
+
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(x => x.Chi_First_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Chi_Last_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Gender)
+            </td>
+            @{
+                if (Model.Chi_School != null)
+                {
+                    <td>
+                        @Html.DisplayFor(x => x.Chi_School)
+                    </td>
+                }
+            }
+
+            <td>
+                @Html.DisplayFor(x => x.Home.Home_Name)
+            </td>
+        </tr>
+    </table>
+</div>

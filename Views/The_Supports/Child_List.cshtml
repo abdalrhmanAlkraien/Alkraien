@@ -1,0 +1,123 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<adminSection.Models.Child>
+@{
+    ViewBag.Title = "Lis_of_Child";
+    Layout = "~/Views/Shared/_The_SupportsLayout.cshtml";
+}
+<style>
+    .btn {
+        margin: 0 20px 20px 50px;
+    }
+
+    .p {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .butoon {
+        background-color: aqua;
+        padding: 4px;
+        border: solid 1px #000000;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Ministry admin</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    List Of Child
+</div>
+
+@{
+    int number_Of_Child = 0;
+    foreach (var i in Model)
+    {
+        if (i.Par_ID == 0 && i.supports == null)
+        {
+        <table class="table table-bordered table-hover table-responsive">
+            <tr>
+                <th>
+                    child Name
+                </th>
+                <th>
+                    child Age
+                </th>
+                @if (i.Chi_School!= null)
+                {
+                <th>
+                    child School
+                </th>
+                }
+                <th>
+                    More details
+                </th>
+            </tr>
+            
+                <tr>
+                    <td>
+                        @i.Chi_First_Name
+                    </td>
+                    <td>
+                        @i.Age
+                    </td>
+                @if (i.Chi_School != null)
+                {
+                    <td>
+                        @i.Chi_School
+                    </td>
+                }
+                    <td>
+                        @Html.ActionLink("More Dtailes", "Child_Details", "The_Supports", new { id = i.Chi_Id }, new { @class = "btn btn-link" })
+                    </td>
+                </tr>
+
+               
+            
+        </table>
+        }
+        number_Of_Child++;
+
+    }
+    @Html.PagedListPager(Model, page => Url.Action("Child_List", new { page }))
+}
+

@@ -1,0 +1,160 @@
+﻿@model adminSection.Models.Minsitry
+@{
+    ViewBag.Title = "Rigester";
+}
+<style>
+    .center {
+        text-align: center;
+        padding: 50px;
+    }
+
+    .btn {
+        margin: 0 20px 20px 50px;
+    }
+
+    .p {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .butoon {
+        background-color: aqua;
+        padding: 4px;
+        border: solid 1px #000000;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row padding_and_Margin h2">
+    Rigester
+</div>
+@using (Html.BeginForm("Rigester", "Minsitry", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(x => x.Min_Full_Name, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Min_Full_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Min_Full_Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Min_Phone, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Min_Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Min_Phone, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Min_Email, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Min_Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Min_Email, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Password, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Password, new { htmlAttributes = new { id = "Password", @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Min_Confirm_Password, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Min_Confirm_Password, new
+           {
+               htmlAttributes = new
+               {
+                   id = "Confirm_Password",
+                   @class = "form-control",
+                   required = "required"
+               }
+           })
+                @Html.ValidationMessageFor(x => x.Min_Confirm_Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Min_Image_Path, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="ImageFile" name="ImageFile" class="form-control" required />
+                @Html.ValidationMessageFor(x => x.Min_Image_Path, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <input type="submit" value="save" id="Save" class="btn button padding_and_Margin"  />
+            </div>
+            <div class="col-md-2">
+                @Html.ActionLink("login", "login", "Minsitry", null, new { @class = "btn button padding_and_Margin" })
+            </div>
+        </div>
+    </div>
+
+
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        $("#Save").click(function () {
+
+                var password = document.getElementById("Password").value;
+                var Confirm_Password = document.getElementById("Confirm_Password").value;
+                if (password != Confirm_Password) {
+                    alert("The Password And Confirm Password Not Match");
+                }
+
+
+
+
+
+        });
+    });
+
+</script>
+

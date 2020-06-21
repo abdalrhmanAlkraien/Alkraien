@@ -1,0 +1,92 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<adminSection.Models.Child>
+@{
+    ViewBag.Title = "Show_Child";
+}
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Ministry admin</b> </h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @foreach (var i in Model)
+        {
+            <div class="col-md-4">
+                <table class="table table-hover table-bordered table-responsive">
+                    <tr>
+                        <th>
+                            @Html.Label("Full Name:")
+                        </th>
+                        <th>
+                            @Html.Label(i.Chi_First_Name + i.Chi_Last_Name)
+                        </th>
+                    <tr>
+                        <th>
+                            @Html.Label("Age:")
+                        </th>
+                        <td>
+                            @Html.Label(i.Age.ToString())
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.Label("Home Name:")
+
+                        </td>
+                        <td>
+                            @Html.Label(i.Home.Home_Name)
+                        </td>
+                    </tr>
+                </table>
+                <div class="row">
+                    <div class="col-md-2">
+                        @Html.ActionLink("More Details", "Details", "Minsitry", new { id = i.Chi_Id }, new { @class = "btn btn-link" })
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+<div class="row">
+@Html.ActionLink("Back", "Home", "Minsitry", null, new { @class = "btn btn-primary padding_and_Margin" })
+</div>
+<div class="row">
+    @Html.PagedListPager(Model, page => Url.Action("Show_Child", new { page }))
+</div>

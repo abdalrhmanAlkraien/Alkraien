@@ -1,0 +1,94 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<adminSection.Models.Child>
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_The_SupportsLayout.cshtml";
+}
+
+
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Supports</b> </h2>
+    </div>
+</div>
+
+
+<div class="row">
+    @foreach (var i in Model)
+    {
+        <div class="col-md-4">
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <td>
+                        @Html.Label("First Name")
+                    </td>
+                    <td>
+                        @Html.Label(i.Chi_First_Name)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Label("Child Gender")
+                    </td>
+                    <td>
+                        @Html.Label(i.Gender)
+                    </td>
+
+                </tr>
+                <tr>
+                        <td>
+                            @Html.Label("Home Child Care Name")
+                        </td>
+
+                        <td>
+                            @Html.Label(i.Home.Home_Name)
+                        </td>
+
+                    </tr>
+
+            </table>
+            
+            @Html.ActionLink("More Details", "More_Child_Details", "The_Supports", new { id = i.Chi_Id }, new { @class = " button" })
+
+        </div>
+    }
+   
+   
+</div>
+<div class="row">
+    @Html.PagedListPager(Model, page => Url.Action("Home", new { page }))
+</div>

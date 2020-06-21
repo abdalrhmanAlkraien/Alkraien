@@ -1,0 +1,92 @@
+﻿@model adminSection.Models.Note
+@{
+    ViewBag.Title = "Add_Note";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+<style>
+    .p {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .butoon {
+        background-color: aqua;
+        padding: 4px;
+        border: solid 1px #000000;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"]  Admin</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    Admin Add Note
+</div>
+
+
+@using (Html.BeginForm("Add_Note", "Admin", FormMethod.Post))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(x => x.Note_title, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Note_title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Note_title, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.note_content, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(x => x.note_content, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Note_title, null, new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <input type="submit" value="Add note" class="btn butoon padding_and_Margin" />
+    </div>
+
+
+}
+

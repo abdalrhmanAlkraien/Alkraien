@@ -1,0 +1,74 @@
+﻿@model adminSection.Models.volunteer
+@{
+    ViewBag.Title = "volunteer_Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    
+    .btn{
+        margin:20px;
+        
+
+    }
+</style>
+
+<h2>volunteer_Details</h2>
+<table class="table table-hover table-bordered table-responsive">
+    <tr>
+        <td>
+            @Html.LabelFor(x=>x.Volunteer_Title)
+        </td>
+        <td>
+            @Html.LabelFor(x=>x.Volunteer_Decription)
+        </td>
+        <td>
+            @Html.LabelFor(x => x.Volunteer_Type)
+        </td>
+        <td>
+            @Html.LabelFor(x => x.Volunteer_status)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(x=>x.Volunteer_Title)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Volunteer_Decription)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Volunteer_Type)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Volunteer_status)
+        </td>
+    </tr>
+
+</table>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">
+            @Html.ActionLink("Visitor Profile", "Visitor_Profile", "Minsitry", new { Id=Model.Visitro_ID},new { @class = "btn btn-default" })
+        </div>
+        <div class="col-md-4">
+            @Html.ActionLink("Accept", "Accept_Volunteer", "Minsitry",new { id = Model.Volunteer_Id },new { @class = "btn btn-primary" })
+        </div>
+        <div class="col-md-4">
+            @Html.ActionLink("Reject", "Reject_Volunteer", "Minsitry", new { id = Model.Volunteer_Id }, new {id="Reject", @class = "btn btn-danger" })
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    
+    $(document).ready(function(){
+        $("#Reject").click(function () {
+            alert("Do you Want Reject Volunteer Work?");
+
+        });
+    });
+
+</script>

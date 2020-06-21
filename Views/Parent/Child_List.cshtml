@@ -1,0 +1,44 @@
+﻿@model IEnumerable<adminSection.Models.Child>
+@{
+    ViewBag.Title = "Child_List";
+}
+<div>
+    Welcom  @Session["Name"] Admin
+    </div>
+<h2>Child_List</h2>
+<table class="table table-hover table-bordered table-responsive">
+    <tr>
+        @foreach (var i in Model)
+        {
+            if (Convert.ToInt32(Session["Parent_Id"]) == i.Par_ID)
+            {
+                <div class="col-md-4" style="padding:10px">
+                    <a href=@Url.Action("Details", new { id = i.Chi_Id } )>
+                        <img src="@Url.Content(i.Chi_Image_Path)" alt="Child Image" width="150" height="150" />
+                    </a>
+
+                    <div>
+                        @Html.Label(i.Chi_First_Name)
+                    </div>
+                    <div>
+                        @Html.Label(i.Chi_Last_Name, htmlAttributes: new { @class = "label-control" })
+                    </div>
+                    @Html.ActionLink("More Details", "Details","Admin",new { id = i.Chi_Id }, new { target = "_blank", id = i.Chi_Id })
+
+                </div>
+            }
+
+
+
+
+
+        }
+    </tr>
+
+
+
+
+</table>
+
+
+

@@ -1,0 +1,115 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<adminSection.Models.volunteer>
+@{
+    ViewBag.Title = "volunteerList";
+    Layout = "~/Views/Shared/_The_SupportsLayout.cshtml";
+}
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Supports</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    Volunteer List
+</div>
+
+<div class="row">
+    <table class="table table-bordered table-hover table-responsive" >
+        <tr>
+            <td>
+                @Html.Label("Volunteer Title")
+            </td>
+            <td>
+                @Html.Label("Volunteer Decription")
+                
+            </td>
+            <td>
+                @Html.Label("Volunteer Type")
+               
+            </td>
+            <td>
+                @Html.Label("Volunteer Status")
+                
+            </td>
+            <td>
+                @Html.Label(" Edit Volunteer")
+               
+            </td>
+            <td>
+                @Html.Label("Remove Volunteer")
+               
+            </td>
+            
+        </tr>
+        @foreach(var i in Model)
+        {
+            <tr>
+                <td>
+                    @Html.Label(i.Volunteer_Title)
+                   
+                </td>
+                <td>
+                    @Html.Label(i.Volunteer_Decription)
+                    
+                </td>
+                <td>
+                    @Html.Label(i.Volunteer_Type)
+                    
+                </td>
+                <td>
+                    @Html.Label(i.Volunteer_status)
+                    
+                </td>
+                @if (i.Volunteer_status.ToString()== "under consideration")
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit_Volunteer","The_Supports",new { id = i.Volunteer_Id },new { @class = "btn btn-link" })
+                    </td>
+                    <td>
+                        @Html.ActionLink("Remove", "Remove_Volunteer", "The_Supports", new { id = i.Volunteer_Id }, new { @class = "btn btn-link" })
+                    </td>
+                }
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="row">
+    @Html.PagedListPager(Model, page => Url.Action("volunteerList", new { page }))
+
+</div>

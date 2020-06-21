@@ -1,0 +1,123 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<adminSection.Models.Note>
+
+@{
+    ViewBag.Title = "Note_List";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
+}
+
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Parent</b> </h2>
+    </div>
+</div>
+<div class="row h2 padding_and_Margin">
+    Note List
+</div>
+
+<table class="table table-hover table-bordered table-responsive">
+    <tr>
+        <th>
+            
+            @Html.Label("First Name")
+        </th>
+        <th>
+            @Html.Label("Last Name")
+        </th>
+        <th>
+            @Html.Label("Note Title")
+        </th>
+        <th>
+            @Html.Label("Note Content")
+        </th>
+        <th>
+            @Html.Label("Note Date")
+        </th>
+        <th>
+            @Html.Label("Posted")
+        </th>
+        <th>
+            @Html.Label("Edit Note")
+        </th>
+        <th>
+            @Html.Label("Remove Note")
+        </th>
+
+    </tr>
+       @foreach (var i in Model)
+       {
+           Session["idChild"] = i.Child_id;
+        <tr>
+            <td>
+                @Html.Label(i.child.Chi_First_Name)
+            </td>
+            <td>
+                @Html.Label(i.child.Chi_Last_Name)
+            </td>
+            <td>
+                @Html.Label(i.Note_title)
+            </td>
+            <td>
+                @Html.Label(i.note_content)
+            </td>
+            <td>
+                @Html.Label(i.Note_Date.ToString())
+            </td>
+            <td>
+                @Html.Label(i.Posted)
+            </td>
+            
+            @if (i.Posted == "Parant")
+            {
+                <td>
+                    @Html.ActionLink("Edit Note", "Edit_Note", "Parent", new { id = i.Note_Id }, new { @class = "btn btn-link" })
+                </td>
+                <td>
+                    @Html.ActionLink("Remove Note", "Remove_Note", "Parent", new { id = i.Note_Id }, new { @class = "btn btn-link" })
+                </td>
+
+            }
+            </tr>
+            }
+
+
+</table>
+@*@Html.ActionLink("Back", "Details", "Parent", new { id= Session["idChild"] }, new { @class= "btn button padding_and_Margin" })*@
+@Html.ActionLink("Home", "Home", "Parent",null, new { @class= "btn button padding_and_Margin" })
+@Html.PagedListPager(Model, page => Url.Action("Note_List", new { page }))
+
+

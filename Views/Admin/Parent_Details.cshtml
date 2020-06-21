@@ -1,0 +1,122 @@
+﻿@model adminSection.Models.Parent
+@{
+    ViewBag.Title = "Parent_Details";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+<style>
+     .p {
+   padding:10px;
+   margin:10px;
+   text-align:center;
+        
+         }
+    .butoon {
+        background-color: aqua;
+        padding: 4px;
+        border: solid 1px #000000;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Admin</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    Parent Details
+</div>
+
+<div class="col-md-12">
+    <div class="col-md-2">
+        @Html.ActionLink("Home", "Home", "Admin", null, new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Parent List", "ShowParent", "Admin", null, new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+</div>
+@{
+    if (Model.Par_Image_Path != null)
+    {
+        <img src="@Url.Content(Model.Par_Image_Path)" alt="parent Image" width="150" height="150" />
+
+    }
+
+
+}
+<table class="table table-hover table-bordered table-responsive">
+    <tr>
+        <th>
+            @Html.LabelFor(x=>x.Parent_Full_Name)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Parent_Email)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Parent_Phone)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Parent_status)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Parent_Location)
+        </th>
+
+
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(x => x.Parent_Full_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Parent_Email)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Parent_Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Parent_status)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Parent_Location)
+        </td>
+    </tr>
+
+</table>
+

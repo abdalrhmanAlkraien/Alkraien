@@ -1,0 +1,127 @@
+﻿@model adminSection.Models.Home_Child_Care
+@{
+    ViewBag.Title = "Edit_home";
+    Layout = "~/Views/Shared/_VisitorLayout.cshtml";
+}
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Ministry admin</b> </h2>
+    </div>
+</div>
+<div class="row padding_and_Margin h2">
+    Edit home
+</div>
+
+@using (Html.BeginForm("Edit_home", "Minsitry", FormMethod.Post))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(x => x.Home_Name, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Home_Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Home_Name, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Home Name Section  *@
+        <div class="form-group">
+            @Html.LabelFor(x => x.Home_Age_Group, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Home_Age_Group", new List<SelectListItem> {
+            new SelectListItem {Text="1-5" ,Value="5" },
+            new SelectListItem {Text="6-10",Value="10" },
+            new SelectListItem {Text="11-14",Value="14" },
+            new SelectListItem {Text="14-18",Value="18" }
+
+        }, "Select Age Group", new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Home_Age_Group, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Age Group Section *@
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Home_Child_Gender, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Home_Child_Gender", new List<SelectListItem> {
+            new SelectListItem {Text="Male",Value="Male" },
+            new SelectListItem {Text="Female",Value="Female" }
+        }, "Select Gender Group", new { @class = "form-control" })
+                @Html.ValidationMessageFor(x => x.Home_Child_Gender, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Gender Group Section *@
+        <div class="form-group">
+            @Html.LabelFor(x => x.Home_Location, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Home_Location, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Home_Location, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Home_Phone, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Home_Phone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Home_Phone, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Phone Number Section *@
+        <div class="form-group">
+            @Html.LabelFor(x => x.Home_Email, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Home_Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Home_Email, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Email Address Section *@
+        <div class="form-group">
+            @Html.LabelFor(x => x.Home_Website, htmlAttributes: new { @class = "label-from col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Home_Website, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Home_Website, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        @* Website Section *@
+    </div>
+
+
+
+    <div class="row padding_and_Margin">
+        <div class="col-md-2">
+            <input type="submit" value="Edit" class="btn button" />
+        </div>
+    </div>
+
+}
+

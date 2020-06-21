@@ -1,0 +1,76 @@
+﻿@model adminSection.Models.volunteer
+@{
+    ViewBag.Title = "Reject_Volunteer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .btn
+    {
+        margin:20px;
+    }
+    
+</style>
+<h2>Reject_Volunteer</h2>
+<div class="row">
+    <table class="table table-bordered table-hover table-responsive">
+        <tr>
+            <th>
+                @Html.LabelFor(x => x.Volunteer_Title)
+            </th>
+            <th>
+                @Html.LabelFor(x => x.Volunteer_Decription)
+            </th>
+            <th>
+                @Html.LabelFor(x => x.Volunteer_Type)
+            </th>
+            <th>
+                @Html.LabelFor(x => x.Volunteer_status)
+            </th>
+
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(x => x.Volunteer_Title)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Volunteer_Decription)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Volunteer_Type)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Volunteer_status)
+            </td>
+
+        </tr>
+
+    </table>
+</div>
+<div class="row">
+    @using (Html.BeginForm("Reject_Volunteer", "Minsitry", FormMethod.Post))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(x => x.the_reason_of_refuse, htmlAttributes: new { @class="label-control col-md-2"})
+                <div class="col-md-10">
+                    @Html.EditorFor(x => x.the_reason_of_refuse, new { htmlAttributes=new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(x=>x.the_reason_of_refuse,null,new { @class="text-danger", required = "required" , placeholder = "the reason of refuse" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <input type="submit" value="Reject" class="btn btn-danger" />
+                </div>
+                <div class="col-md-6">
+                    @Html.ActionLink("Cancel", "Home", "Minsitry", null, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+            
+        </div>
+        
+                
+    }
+</div>

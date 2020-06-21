@@ -1,0 +1,106 @@
+﻿@model IEnumerable<adminSection.Models.volunteer>
+@{
+    ViewBag.Title = "volunteerList";
+    Layout = "~/Views/Shared/_VisitorLayout.cshtml";
+}
+<style>
+    .btn {
+        margin: 0 20px 20px 50px;
+    }
+
+    .p {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .butoon {
+        background-color: aqua;
+        padding: 4px;
+        border: solid 1px #000000;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Visitor</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    Volunteer List
+</div>
+
+<table class="table table-hover table-bordered table-responsive">
+
+    <tr>
+        <td>
+            @Html.Label("Volunteer Title")
+        </td>
+        <td>
+            @Html.Label("Volunteer Decription")
+        </td>
+        <td>
+            @Html.Label("Volunteer Type")
+        </td>
+        <td>
+            @Html.Label("Volunteer Status")
+        </td>
+    </tr>
+    @foreach (var i in Model)
+    {
+       <tr>
+           <td>
+               @Html.Label(i.Volunteer_Title)
+           </td>
+           <td>
+               @Html.Label(i.Volunteer_Decription)
+           </td>
+           <td>
+               @Html.Label(i.Volunteer_Type)
+           </td>
+           <td>
+               @Html.Label(i.Volunteer_status)
+           </td>
+       </tr>
+
+
+    }
+
+
+</table>

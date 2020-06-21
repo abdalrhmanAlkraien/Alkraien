@@ -1,0 +1,130 @@
+﻿@model adminSection.Models.Home_Child_Care
+@{
+    ViewBag.Title = "Home_Details";
+}
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Ministry admin</b> </h2>
+    </div>
+</div>
+<div class="row h2">
+    <h2>Home Details @Model.Home_Name</h2>
+    <h2></h2>
+</div>
+
+<div class="col-md-12">
+    <div class="col-md-2">
+        @Html.ActionLink("Create Home Care", "Create_Home", "Minsitry", null, new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Edit Home","Edit_home","Minsitry", new { id = Model.Home_ID },new { @class= "btn btn-primary padding_and_Margin" })
+
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Remove Home", "Remove_Home","Minsitry", new { id = Model.Home_ID },new { @class= "btn btn-primary padding_and_Margin" })
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Show Admin","Show_Admin","Minsitry",new { id = Model.Home_ID }, new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Show Child","Show_Child","Minsitry", new { id = Model.Home_ID }, new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+    
+</div>
+<table class="table table-hover table-bordered table-responsive">
+    <tr>
+        <th>
+            @Html.LabelFor(x=>x.Home_Name)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Home_Age_Group)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Home_Child_Gender)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Home_Location)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Home_Phone)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Home_Email)
+        </th>
+        @if (Model.Home_Website != null)
+        {
+        <th>
+            @Html.LabelFor(x=>x.Home_Website)
+        </th>
+        }
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(x=>x.Home_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Home_Age_Group)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Home_Child_Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Home_Location)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Home_Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(x=>x.Home_Email)
+        </td>
+        @if (Model.Home_Website != null)
+        {
+        <td>
+            @Html.DisplayFor(x => x.Home_Website)
+        </td>
+        }
+    </tr>
+    
+</table>
+<div class="row padding_and_Margin">
+    <div class="col-md-12">
+       
+        <div class="col-md-4">
+            @Html.ActionLink("Register New Admin", "Rigester", "Home", new { id = Model.Home_ID }, new { @class = "button" })
+        </div>
+
+    </div>
+</div>

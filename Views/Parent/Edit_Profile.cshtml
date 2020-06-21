@@ -1,0 +1,120 @@
+﻿@model adminSection.Models.Parent
+@{
+    ViewBag.Title = "Edit_Profile";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
+}
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Parent Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Parent</b> </h2>
+    </div>
+</div>
+<div class="row h2 padding_and_Margin">
+    Edit Profile
+</div>
+
+
+@using (Html.BeginForm("Edit_Profile", "Parent", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+   <div class="form-horizontal">
+       <div class="form-group">
+           @Html.LabelFor(x => x.Parent_Full_Name, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+               @Html.EditorFor(x => x.Parent_Full_Name, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.ValidationMessageFor(x => x.Parent_Full_Name, "", new { @class = "text-danger" })
+
+           </div>
+       </div>
+       <div class="form-group">
+           @Html.LabelFor(x => x.Parent_Phone, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+               @Html.EditorFor(x => x.Parent_Phone, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.ValidationMessageFor(x => x.Parent_Phone, "", new { @class = "text-danger" })
+           </div>
+       </div>
+       <div class="form-group">
+           @Html.LabelFor(x => x.Parent_Email, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+               @Html.EditorFor(x => x.Parent_Email, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.ValidationMessageFor(x => x.Parent_Email, "", new { @class = "text-danger" })
+           </div>
+       </div>
+       <div class="form-group">
+           @Html.LabelFor(x => x.Parent_Password, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+               @Html.EditorFor(x => x.Parent_Password, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.ValidationMessageFor(x => x.Parent_Password, "", new { @class = "text-danger" })
+           </div>
+       </div>
+       <div class="form-group">
+           @Html.LabelFor(x => x.Parent_Confirm_Password, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+               @Html.EditorFor(x => x.Parent_Confirm_Password, new { htmlAttributes = new { @class = "form-control", Required = "required" } })
+               @Html.ValidationMessageFor(x => x.Parent_Confirm_Password)
+           </div>
+       </div>
+
+       <div class="form-group">
+           @Html.LabelFor(x => x.Parent_Location, htmlAttributes: new { @class = "label-control col-md-2" })
+
+           <div class="col-md-10">
+               @Html.EditorFor(x => x.Parent_Location, new { htmlAttributes = new { @class = "form-control" } })
+               @Html.ValidationMessageFor(x => x.Parent_Location, "", new { @class = "text-danger" })
+           </div>
+       </div>
+       <div class="form-group">
+           @Html.LabelFor(x => x.Par_Image_Path, htmlAttributes: new { @class = "label-control col-md-2" })
+           <div class="col-md-10">
+               <input type="file" id="ImageFile" name="ImageFile" class="form-control"/>
+               @Html.ValidationMessageFor(x => x.Par_Image_Path, "", new { @class = "text-danger" })
+           </div>
+
+       </div>
+
+   </div>
+<div class="row">
+    <div class="col-md-4">
+        <input type="submit" value="Rigester Parent" class="btn button padding_and_Margin" />
+    </div>
+    <div class="col-md-4">
+        @Html.ActionLink("Back", "Home", "Parent", null, new { @class = "btn button padding_and_Margin" })
+    </div>
+</div>
+}
+   
+
+
+
+

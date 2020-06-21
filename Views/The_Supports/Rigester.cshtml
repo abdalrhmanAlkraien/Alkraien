@@ -1,0 +1,157 @@
+﻿@model adminSection.Models.The_Supports
+@{
+    ViewBag.Title = "Rigester";
+    
+}
+<style>
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Supports</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    Supports Rigester
+</div> 
+@using (Html.BeginForm("Rigester", "The_Supports", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(x => x.Supports_FullName, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Supports_FullName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Supports_FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Supports_Phone_Number, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Supports_Phone_Number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Supports_Phone_Number, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Supports_Email, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Supports_Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Supports_Email, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Supports_Password, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Supports_Password, new { htmlAttributes = new { id = "Password", @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Supports_Password, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.The_Supports_Confirm_Password, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.The_Supports_Confirm_Password, new
+           {
+               htmlAttributes = new
+               {
+                   id = "Confirm_Password",
+                   @class = "form-control",
+                   required = "required"
+               }
+           })
+                @Html.ValidationMessageFor(x => x.The_Supports_Confirm_Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Sponsor_Location, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.Sponsor_Location, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(x => x.Sponsor_Location, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Supports_Image_Path, htmlAttributes: new { @class = "label-control col-md-2" })
+            <div class="col-md-10">
+                <input type="file" id="The_Supports_ImageFile" name="The_Supports_ImageFile" class="form-control" required />
+                @Html.ValidationMessageFor(x => x.Supports_Image_Path, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-2">
+                <input type="submit" value="save" id="Save" class="btn button padding_and_Margin"  />
+            </div>
+           
+        </div>
+    </div>
+
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function ()
+    {
+        $("#Save").click(function () {
+
+                var password = document.getElementById("Password").value;
+                var Confirm_Password = document.getElementById("Confirm_Password").value;
+                if (password != Confirm_Password) {
+                    alert("The Password And Confirm Password Not Match");
+                }
+
+
+
+
+
+        });
+    });
+
+</script>
+
+
+

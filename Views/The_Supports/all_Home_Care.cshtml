@@ -1,0 +1,116 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<adminSection.Models.Home_Child_Care>
+@{
+    ViewBag.Title = "all_Home_Care";
+    Layout = "~/Views/Shared/_The_SupportsLayout.cshtml";
+}
+<style>
+    .btn {
+        margin: 0 20px 20px 50px;
+    }
+
+    .p {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .butoon {
+        background-color: aqua;
+        padding: 4px;
+        border: solid 1px #000000;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Ministry admin</b> </h2>
+    </div>
+</div>
+
+<div class="row padding_and_Margin h2">
+    All Home Care
+</div>
+
+<div class="row">
+    
+        @foreach (var i in Model)
+        {
+            <div class="col-md-4">
+                <table class="table table-bordered table-hover table-responsive">
+                    <tr>
+                        <td>
+                           @Html.Label(" Name:")
+                        </td>
+                        <td>
+                            @Html.Label(i.Home_Name)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.Label("Home Email")
+                        </td>
+                        <td>
+                            @Html.Label(i.Home_Email)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.Label("Home Gender")
+                        </td>
+                        <td>
+                            @Html.Label(i.Home_Child_Gender)
+                        </td>
+                    </tr>
+
+                </table>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.ActionLink("More Details","More", "The_Supports", new { id = i.Home_ID }, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+                </div>
+                }
+            
+</div>
+@Html.PagedListPager(Model, page => Url.Action("all_Home_Care", new { page }))
+
+
+

@@ -1,0 +1,158 @@
+﻿@model adminSection.Models.Child
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_AdminLayoutPage.cshtml";
+}
+
+<style>
+    .panel {
+        display: none;
+    }
+    .hi {
+        float: right;
+    }
+
+    .image {
+        border-radius: 50%;
+        padding: 10px;
+        margin: 10px;
+        float: right;
+    }
+
+    .text {
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+    }
+
+    .centerDiv {
+        text-align: center;
+        font-size: medium;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="row">
+    <div class="centerDiv">
+        <img src="@Url.Content(Session["ImagePath"].ToString())" alt="Child Image" width="150" height="150" class="image float-left" />
+    </div>
+    <div class="centerDiv">
+        <h2> <b>welcom @Session["Name"] Admin</b> </h2>
+    </div>
+</div>
+<div class="row padding_and_Margin h2">
+    Details
+</div>
+
+<div class="col-md-12" id="big_div">
+    <div class="col-md-2 " id="div_p_id">
+        @Html.ActionLink("parent Profile", "Parent_Details", "Admin", new { id = Model.Par_ID }, new { id = "p_id", @class = "btn btn-primary panel padding_and_Margin" })
+
+    </div>
+    <div class="col-md-2 ">
+        @Html.ActionLink("Remove Child", "Remove", "Admin", new { id = Model.Chi_Id },new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Edit Profile", "Edit", "Admin", new { id = Model.Chi_Id }, new {@class = "btn btn-primary padding_and_Margin" })
+        
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Add note", "Add_Note", "Admin", new { Id = Model.Chi_Id }, new { @class= "btn btn-primary padding_and_Margin" })
+    </div>
+    
+    <div class="col-md-2">
+        @Html.ActionLink("Show Note","Note_List","Admin", new { Id = Model.Chi_Id }, new { @class = "btn btn-primary padding_and_Margin" })
+    </div>     
+</div>
+
+<table class="table table-bordered table-hover" id="table">
+    <tr>
+        <th>
+            @Html.LabelFor(x=>x.Chi_First_Name)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.Chi_Last_Name)
+        </th>
+        <th>
+            @Html.LabelFor(x => x.Age)
+        </th>
+        <th>
+            @Html.LabelFor(x => x.Gender)
+        </th>
+        
+        <th>
+            @Html.LabelFor(x=>x.Chi_parent_status)
+        </th>
+        <th>
+            @Html.LabelFor(x=>x.admin.Adm_Name)
+        </th>
+
+        <th id="Parent_Faild">
+            @Html.LabelFor(x=>x.parent.Parent_Full_Name)
+        </th>
+        
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(x=>x.Chi_First_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Chi_Last_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Age)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Gender)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Chi_parent_status)
+        </td>
+        <td>
+           
+            @Html.DisplayFor(x=>x.admin.Adm_Name)
+
+        </td>
+        <td id="Parent_result">
+            <div id="Parent_Faild">
+                @Html.DisplayFor(x => x.parent.Parent_Full_Name)
+            </div>
+        </td>
+    </tr>
+
+   
+</table>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $(window).load(function () {
+
+            if(@Model.Par_ID==0)
+            {
+                $("#Parent_Faild").hide();
+                $("#Parent_result").hide();
+            }
+            else
+            {
+                var par_id = @Model.Par_ID;
+                if (p_id != 0)
+                {
+                    //   $("#div_p_id").show("slow");
+                    $("#p_id").show();
+
+                }
+            }
+
+
+        });
+
+    });
+</script>

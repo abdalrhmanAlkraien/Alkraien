@@ -1,0 +1,92 @@
+﻿@model adminSection.Models.Child
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+    .p {
+        padding:10px;
+        text-align:center;
+        margin:10px;
+    }
+    .bt {
+        padding: 10px;
+      
+        margin: 10px;  
+
+    }
+    .padding_and_Margin {
+        padding: 10px;
+        margin: 10px;
+    }
+</style>
+<div class="col-md-12 p">
+    <img src="@Url.Content(Model.Chi_Image_Path)" alt="Child Image" width="250" height="250" />
+
+</div>
+<div class="col-md-12">
+    <div class="col-md-2">
+        @Html.ActionLink("Admin Profile", "Admin_Details", "Admin", new { id = Model.Adm_ID },new { @class = "btn btn-primary padding_and_Margin" })
+</div>
+    <div class="col-md-2">
+        @Html.ActionLink("Show Note", "Note_List", "Parent", new { id=Model.Chi_Id},new {@class= "btn btn-primary padding_and_Margin" })
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Add note", "Add_Note", "Parent",new{ id=Model.Chi_Id },new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+    <div class="col-md-2">
+        @Html.ActionLink("Edit Note", "Note_List", "Parent", new { id = Model.Chi_Id }, new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+    <div>
+        @Html.ActionLink("Remove note", "Note_List", "Parent", new { id = Model.Chi_Id }, new { @class = "btn btn-primary padding_and_Margin" })
+    </div>
+    </div>
+
+<table class="table table-hover table-bordered table-responsive">
+       
+    <tr>
+        <th>
+            @Html.LabelFor(x => x.Chi_First_Name)
+        </th>
+        <th>
+            @Html.LabelFor(x => x.Chi_Last_Name)
+        </th>
+        <th>
+            @Html.LabelFor(x => x.Age)
+        </th>
+        <th>
+            @Html.LabelFor(x => x.Chi_School)
+        </th>
+        <th>
+            @Html.LabelFor(x => x.Gender)
+        </th>
+        <th>
+            @Html.LabelFor(x => x.admin.Adm_Name)
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(x => x.Chi_First_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Chi_Last_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Age)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Chi_School)
+        </td>
+        <td>
+            @Html.DisplayFor(x => x.Gender)
+        </td>
+        <td>
+           
+             
+            @Html.DisplayFor(x=>x.admin.Adm_Name)
+        
+            
+        </td>
+    </tr>
+       
+       
+       </table> 
